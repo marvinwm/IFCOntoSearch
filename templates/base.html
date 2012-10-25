@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    	<title> {% block title %} IFCOntoSearch {% endblock %} </title>
+    	<meta name="description" content="{% block page_description %} {% endblock %}"/>
+    	<meta name="author" content=""/>
+    	<link rel="stylesheet" type="text/css" media="all" href="static/css/style.css" />
+	</head>
+	<body class="home">
+		<div class="header-wrap" id="top">
+			<div class="header">
+				<header>
+					<nav>
+						<ul class="nav">
+							<li class="first"><a href="">Search</a></li>
+							<li><a href="/browse">Browse</a></li>
+							<li><a href="/categories">Categories</a></li>
+							<li><a href="/submit">Submit</a></li>
+							<!--<li><a href="/blog">Blog</a></li>-->
+							<li><a href="/about">About</a></li>
+							<li><a href="/contact">Feedback</a></li>
+						</ul>
+						<!--<ul class="account">
+							<li class="first"><a href="#">Sign Up</a></li>
+							<li><a href="#">Login</a></li>
+						</ul>-->
+					</nav>
+				</header>
+			</div>
+		</div>
+		{% block page_body %} {% endblock %}
+		<div class="footer-wrap">
+			<div class="footer">
+				<footer>
+					<p class="copy">&copy; Tsinghua University 2012.</p>
+				</footer>
+			</div>		
+		</div>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block page_body %}
+<div class="body-wrap">
+	<div class="body">
+		<h1 style="display: none;">IFCOntoSearch engine</h1>
+		<img class="logo" src="static/img/logo.png" alt="IFCOntoSearch Logo"/>
+		<form class="search" name="search_form" method="get" id="searchform" action="browse">
+		    <input class="search-input" type="text" value="" placeholder="Enter AEC keywords" name="q" id="q" />
+		    <input class="btn" type="submit" name="submit" id="searchsubmit" value="Search"/>
+		</form>
+	</div>
+</div>
+{% endblock %}
