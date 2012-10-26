@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-	(r'$','IFCOntoSearch.ind.index'),
+	(r'^$','IFCOntoSearch.ind.index'),
+	(r'^browse/$','IFCOntoSearch.browse.index'),
 	url( r'^static/(?P<path>.*)$', 'django.views.static.serve',{ 'document_root': settings.STATIC_ROOT }),
 )

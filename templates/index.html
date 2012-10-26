@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block body_class %}
+class="home"
+{% endblock %}
 {% block page_body %}
 <div class="body-wrap">
 	<div class="body">
@@ -7,7 +10,11 @@
 		<form class="search" name="search_form" method="get" id="searchform" action="browse">
 		    <input class="search-input" type="text" value="" placeholder="Enter AEC keywords" name="q" id="q" />
 		    <input class="btn" type="submit" name="submit" id="searchsubmit" value="Search"/>
+		    <p>e.g.<a href="browse/?q=covering&submit=Search">covering</a>,<a href="browse/?q=flooring&submit=Search">flooring</a>,<a href="browse/?q=sliding+door&submit=Search">sliding door</a></p>
 		</form>
+		<p class="footnote">
+      		<a href="#">Search</a> through over <b>5176</b> building products
+   		</p>
 	</div>
 </div>
 {% endblock %}

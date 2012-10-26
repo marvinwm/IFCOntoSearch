@@ -5,15 +5,17 @@
     	<title> {% block title %} IFCOntoSearch {% endblock %} </title>
     	<meta name="description" content="{% block page_description %} {% endblock %}"/>
     	<meta name="author" content=""/>
-    	<link rel="stylesheet" type="text/css" media="all" href="static/css/style.css" />
+    	<link rel="stylesheet" type="text/css" media="all" href="/static/css/style.css" />
+    	{% block page_css %} {% endblock %}
+    	{% block page_js %} {% endblock %}
 	</head>
-	<body class="home">
+	<body {% block body_class %} {% endblock %}>
 		<div class="header-wrap" id="top">
 			<div class="header">
 				<header>
 					<nav>
 						<ul class="nav">
-							<li class="first"><a href="">Search</a></li>
+							<li class="first"><a href="/">Search</a></li>
 							<li><a href="/browse">Browse</a></li>
 							<li><a href="/categories">Categories</a></li>
 							<li><a href="/submit">Submit</a></li>
