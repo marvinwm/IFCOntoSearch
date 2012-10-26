@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block page_css %} 
+
+{% endblock %}
+
+{% block page_body %}
+<form  accept-charset="utf-8" class="search-form" name="search_form" method="get" id="searchform">
+	<div class="body-header-wrap">
+		<div class="body-header">
+			<div class="logo">
+				<a href="/" title="IFCOntoSearch Home"><img src="/static/img/logo.png" width="192" height="60" alt="IFCOntoSearch Logo" /></a>
+			</div>
+      		<div class="search-frame">
+				<input class="search-input" type="text" value="" placeholder="Enter keywords" name="q" id="q" />
+				<input class="btn" type="submit" name="submit" id="searchsubmit" value="Search"/>	
+			</div>
+		</div>
+	</div>
+	
+	<div class="body-wrap">
+		<div class="body clearfix">
+			<div class="inner">				
+				<h1>Result</h1>
+				<div class="content">
+					<div class="sub-title clearfix">
+                        <b>Latest</b>
+							&middot;
+                        <a href="">Top Rated</a>
+							&middot;
+                        <a href="">Most Popular</a>
+            		</div>
+					
+					<ul class="grid clearfix">
+						<div>Results 1-10 of 4024:</div>
+						<ol>
+							{% for result in results %}
+							<li>
+								<a href="{{result.url}}">{{result.title}}</a>
+								<table style="border: 0px solid black; text-align: left">
+									<tr>
+										<th>Content</th>
+										<td>
+											{{result.content}}
+										</td>
+									</tr>
+									<tr>
+										<th>Score</th>
+										<td>{{result.explain}}</td>
+									</tr>
+								</table>
+							</li>
+							{% endfor %}
+						</ol>
+					</ul>
+					
+					
+
+				</div>	
+				<div class="sidebar">
+						<div class="widget">
+							<h2>Refine your search:<br></h2>
+							HERE is the circles
+						</div>
+						
+						<div class="widget">
+							<h3>IFC Ontology Extension Options:</h3>
+							<div>
+								<b>Extension scope:</b>
+								<h4><input type="checkbox" name="hyponym" checked="">Hyponym</h4>
+								<h4><input type="checkbox" name="hypernym" checked="">Hypernym</h4>
+								<h4><input type="checkbox" name="homoionym">Homoionym</h4>
+							</div>
+						</div>
+
+						<div class="widget">
+							<b>Extension Depth:</b>
+						</div>
+
+				</div>		
+			</div>
+		</div>
+	</div>
+</form>
+{% endblock %}

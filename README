@@ -1,0 +1,4 @@
+NEED:
+	Django 1.4.1
+	solrpy
+	solr
