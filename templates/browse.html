@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 {% block page_css %} 
+<script type="text/javascript" src="/static/js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.9.0.custom.js"></script>
+<script type="text/javascript" src="/static/js/ontodata.js"></script>
+<link href="/static/css/excite-bike/jquery-ui-1.9.0.custom.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="/static/css/force.css"/>
+<script type="text/javascript" src="/static/js/d3/d3.v2.js"></script>
 
 {% endblock %}
 
@@ -11,7 +17,7 @@
 				<a href="/" title="IFCOntoSearch Home"><img src="/static/img/logo.png" width="192" height="60" alt="IFCOntoSearch Logo" /></a>
 			</div>
       		<div class="search-frame">
-				<input class="search-input" type="text" value="" placeholder="Enter keywords" name="q" id="q" />
+				<input class="search-input" type="text" value="{{query}}" placeholder="Enter keywords" name="q" id="q" />
 				<input class="btn" type="submit" name="submit" id="searchsubmit" value="Search"/>	
 			</div>
 		</div>
@@ -29,30 +35,94 @@
 							&middot;
                         <a href="">Most Popular</a>
             		</div>
-					
+					<span class="pagination-wrap">
+						<div class="pagination" current="{{page}}" total="{{totalPage}}">
+							<ul class='page-numbers'>
+								{% if page > 1 %}
+								<li><a class='next page-numbers' href="{{path}}&page={{pageP}}">Previous</a></li>
+								{% endif %}
+								{% if page > 2 %}
+								<li><a class='page-numbers' href="{{path}}&page=1">1</a></li>
+								{% endif %}
+								{% if page > 3 %}
+								<li><span class="page-numbers dots">&hellip;</span></li>
+								{% endif %}
+								{% if page > 1 %}
+								<li><a class='page-numbers' href="{{path}}&page={{pageP}}">{{pageP}}</a></li>
+								{% endif %}
+								<li><a class='page-numbers' href="{{path}}&page={{page}}">{{page}}</a></li>
+								{% if page < totalPage %}
+								<li><a class='page-numbers' href="{{path}}&page={{pageN}}">{{pageN}}</a></li>
+								{% endif %}
+								{% if pageN < totalPage %}
+								<li><span class="page-numbers dots">&hellip;</span></li>
+								{% endif %}
+								{% if pageN < totalPage %}
+								<li><a class='page-numbers' href="{{path}}&page={{totalPage}}">{{totalPage}}</a></li>
+								{% endif %}
+								{% if pageN < totalPage %}
+								<li><a class="next page-numbers" href="{{path}}&page={{pageN}}">Next</a></li>
+								{% endif %}
+							</ul>
+			
+						</div>
+					</span>
 					<ul class="grid clearfix">
-						<div>Results 1-10 of 4024:</div>
+						<div>Results {{start}}-{{end}} of {{total}}:</div>
 						<ol>
 							{% for result in results %}
 							<li>
-								<a href="{{result.url}}">{{result.title}}</a>
+								<a href="{{result.url}}">{{result.htitle|safe}}</a>
 								<table style="border: 0px solid black; text-align: left">
 									<tr>
 										<th>Content</th>
 										<td>
-											{{result.content}}
+											{{result.hcontent|safe}}
 										</td>
 									</tr>
 									<tr>
 										<th>Score</th>
-										<td>{{result.explain}}</td>
+										<td>{{result.score}}</td>
 									</tr>
 								</table>
 							</li>
 							{% endfor %}
 						</ol>
 					</ul>
+					<div class="sub-title clearfix">                       
+						<span class="pagination-wrap">
+						<div class="pagination" current="{{page}}" total="{{totalPage}}">
+							<ul class='page-numbers'>
+								{% if page > 1 %}
+								<li><a class='next page-numbers' href="{{path}}&page={{pageP}}">Previous</a></li>
+								{% endif %}
+								{% if page > 2 %}
+								<li><a class='page-numbers' href="{{path}}&page=1">1</a></li>
+								{% endif %}
+								{% if page > 3 %}
+								<li><span class="page-numbers dots">&hellip;</span></li>
+								{% endif %}
+								{% if page > 1 %}
+								<li><a class='page-numbers' href="{{path}}&page={{pageP}}">{{pageP}}</a></li>
+								{% endif %}
+								<li><a class='page-numbers' href="{{path}}&page={{page}}">{{page}}</a></li>
+								{% if page < totalPage %}
+								<li><a class='page-numbers' href="{{path}}&page={{pageN}}">{{pageN}}</a></li>
+								{% endif %}
+								{% if pageN < totalPage %}
+								<li><span class="page-numbers dots">&hellip;</span></li>
+								{% endif %}
+								{% if pageN < totalPage %}
+								<li><a class='page-numbers' href="{{path}}&page={{totalPage}}">{{totalPage}}</a></li>
+								{% endif %}
+								{% if pageN < totalPage %}
+								<li><a class="next page-numbers" href="{{path}}&page={{pageN}}">Next</a></li>
+								{% endif %}
+							</ul>
+						</div>
+					</span>
 					
+					</div>
 					
 
 				</div>	
@@ -60,22 +130,55 @@
 						<div class="widget">
 							<h2>Refine your search:<br></h2>
 							HERE is the circles
+							<div id="navi"></div>
+							<script type="text/javascript">
+								var dataNodes={{dataNodes|safe}};
+								var dataLinks={{dataLinks|safe}};
+							</script>
+							<script type="text/javascript" src="/static/js/force.js"></script>
 						</div>
 						
 						<div class="widget">
 							<h3>IFC Ontology Extension Options:</h3>
 							<div>
 								<b>Extension scope:</b>
-								<h4><input type="checkbox" name="hyponym" checked="">Hyponym</h4>
-								<h4><input type="checkbox" name="hypernym" checked="">Hypernym</h4>
-								<h4><input type="checkbox" name="homoionym">Homoionym</h4>
+								<h4><input type="checkbox" name="hyponym" {% ifequal hpo 1 %}checked{% endifequal %}>Hyponym</h4>
+								<h4><input type="checkbox" name="hypernym" {% ifequal hpr 1 %}checked{% endifequal %}>Hypernym</h4>
+								<h4><input type="checkbox" name="homoionym" >Homoionym</h4>
 							</div>
 						</div>
 
 						<div class="widget">
 							<b>Extension Depth:</b>
+							<br>
+							<script>
+							$(function() {
+								var select = $( "#dep" );
+								var slider = $( "<br><div id='slider'></div>" ).insertAfter( select ).slider({
+									min: 1,
+									max: 4,
+									range: "min",
+									value: select[ 0 ].selectedIndex + 1,
+									slide: function( event, ui ) {
+										select[ 0 ].selectedIndex = ui.value - 1;
+									}
+								});
+								$( "#dep" ).change(function() {
+									slider.slider( "value", this.selectedIndex + 1 );
+								});
+							});
+							</script>
+							<div  class="slider">
+								<select name="dep" id="dep">
+									<option value="0" {% ifequal dep 0 %}selected{% endifequal %}>Expand depth:0</option>
+									<option value="1" {% ifequal dep 1 %}selected{% endifequal %}>Expand depth:1</option>
+									<option value="2" {% ifequal dep 2 %}selected{% endifequal %}>Expand depth:2</option>
+									<option value="3" {% ifequal dep 3 %}selected{% endifequal %}>Expand depth:Deeper</option>
+								</select>
+								<label>(Slide or Select,3 means no limit)</label>
+							</div>
 						</div>
-
+						<input class="btn" style="float:right;" type="submit" name="submit" id="searchsubmit" value="Refine"/>	
 				</div>		
 			</div>
 		</div>

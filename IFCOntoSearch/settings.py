@@ -1,5 +1,8 @@
 # Django settings for IFCOntoSearch project.
 import os
+
+INTERNAL_IPS = ('127.0.0.1',)
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -89,13 +92,17 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    #'django.middleware.common.CommonMiddleware',
+    #'django.contrib.sessions.middleware.SessionMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.WordExpansion.WordExpansionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'middlewares.WordExpansion.WordExpansionMiddleware',
+
 )
 
 ROOT_URLCONF = 'IFCOntoSearch.urls'
@@ -121,6 +128,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'debug_toolbar',
 )
 
 # A sample logging configuration. The only tangible logging
